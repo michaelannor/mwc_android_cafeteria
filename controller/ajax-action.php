@@ -95,7 +95,7 @@
    }
 
    /**
-    * [[The cmd_get_order_by_id function is to get a specific outstanding order from the database]]
+    * [[The cmd_set_order_ready function is to update the status of an order when ready]]
     */
    public function cmd_set_order_ready(){
      $order_id = $_REQUEST['order'];
@@ -111,7 +111,7 @@
    }
 
    /**
-    * [[The cmd_get_order_by_id function is to get a specific outstanding order from the database]]
+    * [[The cmd_set_order_discharged function is to update the status of an order when discharged]]
     */
    public function cmd_set_order_discharged(){
      $order_id = $_REQUEST['order'];
@@ -124,6 +124,33 @@
      else{
        echo '{"result":0,"message": "Failed to update status to discharged."}';
      }
+   }
+
+
+   /**
+    * [[The cmd_get_all_meals function is to get all meals from the database]]
+    */
+   public function cmd_get_all_meals(){
+     $cafeteria_id = $_REQUEST['cafeteria'];
+     include ("order.php");
+     $obj = new order();
+     $row = $obj->get_all_meals($cafeteria_id);
+     if ($row){
+       //return a JSON string to browser when request comes to get description
+       //generate the JSON message to echo to the browser
+       echo '{"result":1,"meals":[';	//start of json object
+         while($row){
+           echo json_encode($row);			//convert the result array to json object
+           $row=$obj->fetch();
+           if ($row){
+             echo ",";
+           }
+         }
+         echo "]}";							//end of json array and object
+       }
+       else{
+         echo '{"result":0,"message": "meals not got."}';
+       }
    }
 
 
