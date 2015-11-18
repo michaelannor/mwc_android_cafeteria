@@ -13,7 +13,7 @@
       break;
 
     case 2:
-      get_order_by_id();
+      cmd_get_order_by_id();
       break;
 
     case 3:
@@ -57,7 +57,7 @@
     if ($row){
       //return a JSON string to browser when request comes to get description
       //generate the JSON message to echo to the browser
-      echo '{"result":1,"product":[';	//start of json object
+      echo '{"result":1,"orders":[';	//start of json object
         while($row){
           echo json_encode($row);			//convert the result array to json object
           $row=$obj->fetch();
@@ -68,9 +68,31 @@
         echo "]}";							//end of json array and object
       }
       else{
-        echo '{"result":0,"message": "product not got."}';
+        echo '{"result":0,"message": "orders not got."}';
       }
   }
+
+  /**
+   *
+   */
+   public function cmd_get_order_by_id(){
+     $order_id = $_REQUEST['order'];
+     include ("order.php");
+     $obj = new order();
+
+     $row = $obj->get_order_by_id($order_id);
+     //return a JSON string to browser when request comes to get description
+
+     if($row){
+         //generate the JSON message to echo to the browser
+         echo '{"result":1,"order":[';	//start of json object
+           echo json_encode($row);			//convert the result array to json object
+           echo "]}";							//end of json array and object
+      }
+       else{
+         echo '{"result":0,"message": "order not retrieved."}';
+       }
+   }
 
 
 ?>
