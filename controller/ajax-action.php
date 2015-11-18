@@ -119,7 +119,7 @@
      $obj = new order();
 
      if($obj->set_order_discharged($order_id)){
-       echo '{"result":1,"message": "Success setting updating status to discharged"}';
+       echo '{"result":1,"message": "Success updating status to discharged"}';
      }
      else{
        echo '{"result":0,"message": "Failed to update status to discharged."}';
@@ -132,8 +132,8 @@
     */
    public function cmd_get_all_meals(){
      $cafeteria_id = $_REQUEST['cafeteria'];
-     include ("order.php");
-     $obj = new order();
+     include ("meal.php");
+     $obj = new meal();
      $row = $obj->get_all_meals($cafeteria_id);
      if ($row){
        //return a JSON string to browser when request comes to get description
@@ -153,5 +153,58 @@
        }
    }
 
+   /**
+    * [[The cmd_get_meal_by_id function is to get a specific meal from the database]]
+    */
+    public function cmd_get_meal_by_id(){
+      $meal_id = $_REQUEST['meal'];
+      include ("meal.php");
+      $obj = new meal();
+
+      $row = $obj->get_meal_by_id($meal_id);
+      //return a JSON string to browser when request comes to get description
+
+      if($row){
+          //generate the JSON message to echo to the browser
+          echo '{"result":1,"meal":[';	//start of json object
+            echo json_encode($row);			//convert the result array to json object
+            echo "]}";							//end of json array and object
+       }
+        else{
+          echo '{"result":0,"message": "meal not retrieved."}';
+        }
+    }
+
+    /**
+     * [[The cmd_set_meal_available function is to update the availability to available]]
+     */
+    public function cmd_set_meal_available(){
+      $meal_id = $_REQUEST['meal'];
+      include ("meal.php");
+      $obj = new meal();
+
+      if($obj->set_meal_available($meal_id)){
+        echo '{"result":1,"message": "Success updating availability to available"}';
+      }
+      else{
+        echo '{"result":0,"message": "Failed to update availability to available."}';
+      }
+    }
+
+    /**
+     * [[The cmd_set_meal_unavailable function is to update the availability to unavailable]]
+     */
+    public function cmd_set_meal_unavailable(){
+      $meal_id = $_REQUEST['meal'];
+      include ("meal.php");
+      $obj = new meal();
+
+      if($obj->set_meal_unavailable($meal_id)){
+        echo '{"result":1,"message": "Success updating availability to unavailable"}';
+      }
+      else{
+        echo '{"result":0,"message": "Failed to update availability to unavailable."}';
+      }
+    }
 
 ?>
