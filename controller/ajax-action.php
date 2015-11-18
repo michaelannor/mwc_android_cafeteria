@@ -73,7 +73,7 @@
   }
 
   /**
-   *
+   * [[The cmd_get_order_by_id function is to get a specific outstanding order from the database]]
    */
    public function cmd_get_order_by_id(){
      $order_id = $_REQUEST['order'];
@@ -92,6 +92,38 @@
        else{
          echo '{"result":0,"message": "order not retrieved."}';
        }
+   }
+
+   /**
+    * [[The cmd_get_order_by_id function is to get a specific outstanding order from the database]]
+    */
+   public function cmd_set_order_ready(){
+     $order_id = $_REQUEST['order'];
+     include ("order.php");
+     $obj = new order();
+
+     if($obj->set_order_ready($order_id)){
+       echo '{"result":1,"message": "Success setting updating status to ready"}';
+     }
+     else{
+       echo '{"result":0,"message": "Failed to update status to ready."}';
+     }
+   }
+
+   /**
+    * [[The cmd_get_order_by_id function is to get a specific outstanding order from the database]]
+    */
+   public function cmd_set_order_discharged(){
+     $order_id = $_REQUEST['order'];
+     include ("order.php");
+     $obj = new order();
+
+     if($obj->set_order_discharged($order_id)){
+       echo '{"result":1,"message": "Success setting updating status to discharged"}';
+     }
+     else{
+       echo '{"result":0,"message": "Failed to update status to discharged."}';
+     }
    }
 
 
